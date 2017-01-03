@@ -31,6 +31,20 @@ function outputSquawk($range){
     }
 }
 
+function runICAOChecks(){
+  global $destICAO;
+  global $db;
+
+  if(strlen($destICAO) != 4){
+    die("Improper ICAO Code");
+  }
+  if(!ctype_upper($destICAO)){
+    die("Improper ICAO Code");
+  }
+
+  $GLOBALS['destICAO'] = htmlspecialchars($destICAO);
+  $GLOBALS['destICAO'] = $db::escapeString($destICAO);
+}
 
 
 

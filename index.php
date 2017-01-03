@@ -18,6 +18,7 @@ foreach($requiredInput as $required){
   }
 }
 
+runICAOChecks();
 
 $destCountryCode = substr($destICAO, 0, 2);
 
