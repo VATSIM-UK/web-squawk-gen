@@ -1,4 +1,5 @@
 <?php
+include("functions.php");
 
 $requiredInput = array("depICAO", "destICAO");
 
