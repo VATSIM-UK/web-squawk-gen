@@ -36,10 +36,10 @@ function runICAOChecks(){
   global $db;
 
   if(strlen($destICAO) != 4){
-    die("Improper ICAO Code");
+    die();
   }
   if(!ctype_upper($destICAO)){
-    die("Improper ICAO Code");
+    die();
   }
 
   $GLOBALS['destICAO'] = htmlspecialchars($destICAO);
