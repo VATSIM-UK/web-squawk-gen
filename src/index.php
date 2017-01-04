@@ -100,8 +100,8 @@
       $('#icaoCode').keypress(function(event){
 
     	var keycode = (event.keyCode ? event.keyCode : event.which);
-    	if(keycode == '13'){
-    		if($("#icaoCode").val().length == 4){
+      if(keycode == '13'){
+        if($("#icaoCode").val().length == 4){
           generateSquawk();
         }else{
           $("#squawk").text("");
