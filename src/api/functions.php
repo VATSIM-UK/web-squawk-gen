@@ -20,6 +20,15 @@ function outputSquawk($range){
       $output = $number;
     }
 
+    // Check if code is within the octal range
+    $splitCode = str_split($number);
+    foreach($splitCode as $digit){
+      if($digit > 7){
+        // Get another!
+        outputSquawk($range);
+      }
+    }
+
     // Check if it is reserved
     if(array_search($output, $reservedCodes)){
       // Get another!
