@@ -97,19 +97,34 @@
     <script type="text/javascript">
 
     $(document).ready(function(){
+      $('#icaoCode').keypress(function(event){
 
+    	var keycode = (event.keyCode ? event.keyCode : event.which);
+    	if(keycode == '13'){
+    		if($("#icaoCode").val().length == 4){
+          generateSquawk();
+        }else{
+          $("#squawk").text("");
+        }
+    	}
+
+    });
     })
+
+    function generateSquawk(){
+      $.get( "api/index.php", {destICAO: $("#icaoCode").val()}, function( data ) {
+        var isnum = /^\d+$/.test(data);
+        if(isnum){
+          $("#squawk").text(data);
+        }else{
+          $("#squawk").text("");
+        }
+      });
+    }
       function buttonClicked(){
         $("#icaoCode").val($('#icaoCode').val().toUpperCase());
 
-        $.get( "api/index.php", {destICAO: $("#icaoCode").val()}, function( data ) {
-          var isnum = /^\d+$/.test(data);
-          if(isnum){
-            $("#squawk").text(data);
-          }else{
-            $("#squawk").text("");
-          }
-        });
+        generateSquawk();
 
 
       }
@@ -144,7 +159,7 @@
                     <div class="col-lg-6 col-lg-offset-3">
                       <div class="input-group" id="inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane"></span></span>
-                        <input type="text" name="icaoCode" id="icaoCode" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon">
+                        <input type="text" name="icaoCode" id="icaoCode" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
                       </div>
                       </br>
                     </div>
