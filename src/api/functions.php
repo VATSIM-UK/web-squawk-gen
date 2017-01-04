@@ -29,6 +29,13 @@ function outputSquawk($range){
       }
     }
 
+    // For good measure, also check that it is 4 digits long
+    if(strlen($number) != 4){
+      // Get another!
+      outputSquawk($range);
+    }
+
+
     // Check if it is reserved
     if(array_search($output, $reservedCodes)){
       // Get another!
