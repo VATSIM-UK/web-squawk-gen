@@ -100,41 +100,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-    $(document).ready(function(){
-      $('#icaoCode').keypress(function(event){
-
-    	var keycode = (event.keyCode ? event.keyCode : event.which);
-      if(keycode == '13'){
-        if($("#icaoCode").val().length == 4){
-          generateSquawk();
-        }else{
-          $("#squawk").text("");
-        }
-    	}
-
-    });
-    })
-
-    function generateSquawk(){
-      $.get( "api/index.php", {destICAO: $("#icaoCode").val()}, function( data ) {
-        var isnum = /^\d+$/.test(data);
-        if(isnum){
-          $("#squawk").text(data);
-        }else{
-          $("#squawk").text("");
-        }
+      $(document).ready(function(){
+        $('#icaoCode').keypress(function(event){
+        	var keycode = (event.keyCode ? event.keyCode : event.which);
+          if(keycode == '13'){
+            if($("#icaoCode").val().length == 4){
+              generateSquawk();
+            }else{
+              $("#squawk").text("");
+            }
+        	}
+        });
       });
-    }
+
+      function generateSquawk(){
+        $.get( "api/index.php", {destICAO: $("#icaoCode").val()}, function( data ) {
+          var isnum = /^\d+$/.test(data);
+          if(isnum){
+            $("#squawk").text(data);
+          }else{
+            $("#squawk").text("");
+          }
+        });
+      }
       function buttonClicked(){
         $("#icaoCode").val($('#icaoCode').val().toUpperCase());
-
         generateSquawk();
-
-
       }
     </script>
-
-
     <title>VATSIM-UK Squawk Code Allocator</title>
   </head>
   <body>
