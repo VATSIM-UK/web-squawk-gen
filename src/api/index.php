@@ -10,12 +10,12 @@ $tableName = "squawks";
 $db = new SQLite3('database.sqlite3');
 
 
-foreach($requiredInput as $required){
-  if(!isset($_GET[$required])){
-    die("A required input was not supplied! (" . $required . ")");
-  }else{
-    $$required = $_GET[$required];
-  }
+foreach ($requiredInput as $required) {
+    if (!isset($_GET[$required])) {
+        die("A required input was not supplied! (" . $required . ")");
+    } else {
+        $$required = $_GET[$required];
+    }
 }
 
 runICAOChecks();
@@ -28,15 +28,15 @@ $destCountryCode = substr($destICAO, 0, 2);
 $query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."'";
 $results = $db->query($query);
 $numRows = 0;
-while($row = $results->fetchArray()){
-  $numRows++;
+while ($row = $results->fetchArray()) {
+    $numRows++;
 }
 
-if($numRows > 0){
-  // Use this range
+if ($numRows > 0) {
+    // Use this range
   $row = $results->fetchArray();  // Take first result
   $range = parseSquawkRange($row['range']);
-  outputSquawk($range);
+    outputSquawk($range);
 }
 
 // 2nd Search for the destination airport code
@@ -45,18 +45,18 @@ $query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode 
 $results = $db->query($query);
 $numRows = 0;
 $resultsArray = array();
-while($row = $results->fetchArray()){
-  $numRows++;
-  $resultsArray[] = $row;
+while ($row = $results->fetchArray()) {
+    $numRows++;
+    $resultsArray[] = $row;
 }
 
-if($numRows > 0){
-  // Use this range
+if ($numRows > 0) {
+    // Use this range
 
   $possibleRanges = count($resultsArray) - 1;
-  $selectedRange = $resultsArray[rand(0, $possibleRanges)];
-  $range = parseSquawkRange($selectedRange['range']);
-  outputSquawk($range);
+    $selectedRange = $resultsArray[rand(0, $possibleRanges)];
+    $range = parseSquawkRange($selectedRange['range']);
+    outputSquawk($range);
 }
 
 // 3rd - Havn't found a match for the Full ICAO or the 2 letter country code. Lets try the first letter
@@ -67,18 +67,18 @@ $query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode 
 $results = $db->query($query);
 $numRows = 0;
 $resultsArray = array();
-while($row = $results->fetchArray()){
-  $numRows++;
-  $resultsArray[] = $row;
+while ($row = $results->fetchArray()) {
+    $numRows++;
+    $resultsArray[] = $row;
 }
 
-if($numRows > 0){
-  // Use this range
+if ($numRows > 0) {
+    // Use this range
 
   $possibleRanges = count($resultsArray) - 1;
-  $selectedRange = $resultsArray[rand(0, $possibleRanges)];
-  $range = parseSquawkRange($selectedRange['range']);
-  outputSquawk($range);
+    $selectedRange = $resultsArray[rand(0, $possibleRanges)];
+    $range = parseSquawkRange($selectedRange['range']);
+    outputSquawk($range);
 }
 
 // 4th - Fallback. Havn't found a squawk, so lets use ORCAM
@@ -89,18 +89,16 @@ $query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode 
 $results = $db->query($query);
 $numRows = 0;
 $resultsArray = array();
-while($row = $results->fetchArray()){
-  $numRows++;
-  $resultsArray[] = $row;
+while ($row = $results->fetchArray()) {
+    $numRows++;
+    $resultsArray[] = $row;
 }
 
-if($numRows > 0){
-  // Use this range
+if ($numRows > 0) {
+    // Use this range
 
   $possibleRanges = count($resultsArray) - 1;
-  $selectedRange = $resultsArray[rand(0, $possibleRanges)];
-  $range = parseSquawkRange($selectedRange['range']);
-  outputSquawk($range);
+    $selectedRange = $resultsArray[rand(0, $possibleRanges)];
+    $range = parseSquawkRange($selectedRange['range']);
+    outputSquawk($range);
 }
-
- ?>
