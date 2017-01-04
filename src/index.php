@@ -128,7 +128,7 @@
         generateSquawk();
       }
     </script>
-    <title>VATSIM-UK Squawk Code Allocator</title>
+    <title>VATSIM UK Squawk Code Allocator</title>
   </head>
   <body>
     <div class="container">
