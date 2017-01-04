@@ -13,7 +13,7 @@
 
     <style type="text/css">
       #panelBox {
-        max-width:50%;
+        max-width:75%;
         text-align: center;
         float: none;
         margin: 0 auto;
@@ -24,6 +24,10 @@
       }
       #icaoCode{
         text-transform: uppercase;
+      }
+      #form{
+        display:inline-block;
+        text-align:center;
       }
       .centralBox{
         padding: 30px;
@@ -149,24 +153,26 @@
             <div class="panel-heading"><i class="glyphicon glyphicon-cog"></i>   Generate Squawk Code</div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8 col-xs-8">
                   <div class="row">
                     <div class="col-md-12">
                       <label for="icaoCode">Destination ICAO Code</label>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-lg-6 col-lg-offset-3">
-                      <div class="input-group" id="inputs">
-                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane"></span></span>
-                        <input type="text" name="icaoCode" id="icaoCode" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
-                      </div>
+                    <div class="col-md-12">
+                      <form id="form">
+                        <div class="input-group" id="inputs">
+                          <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane"></span></span>
+                          <input type="text" name="icaoCode" id="icaoCode" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
+                        </div>
+                      </form>
                       </br>
                     </div>
                   </div>
                   <button class="btn btn-primary" onclick="buttonClicked()" type="button">Generate Squawk</button>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-4">
                     Squawk Code:
                     <h1 id="squawk"></h1>
                 </div>
