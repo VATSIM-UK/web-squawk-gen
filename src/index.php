@@ -112,6 +112,15 @@
         	}
           event.preventDefault();
         });
+        $('#form').submit(function(event){
+            if($("#icaoCode").val().length == 4){
+              generateSquawk();
+            }else{
+              $("#squawk").text("");
+            }
+        	
+          event.preventDefault();
+        });
       });
 
       function generateSquawk(){
