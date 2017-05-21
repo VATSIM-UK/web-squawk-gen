@@ -110,7 +110,6 @@
               $("#squawk").text("");
             }
         	}
-          event.preventDefault();
         });
         $('#form').submit(function(event){
             if($("#icaoCode").val().length == 4){
