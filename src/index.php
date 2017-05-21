@@ -110,6 +110,7 @@
               $("#squawk").text("");
             }
         	}
+          event.preventDefault();
         });
       });
 
