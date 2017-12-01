@@ -23,8 +23,8 @@ function parseSquawkRange($input)
 
 function findSquawk($range, $final = false)
 {
-  $result = outputSquawk($range, $final);
-  return $result;
+    $result = outputSquawk($range, $final);
+    return $result;
 }
 
 function initAllocationDB()
