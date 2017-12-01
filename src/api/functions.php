@@ -24,7 +24,6 @@ function parseSquawkRange($input)
 function findSquawk($range, $final = false)
 {
   $result = outputSquawk($range, $final);
-  echo "Find Squawk Run</br>";
   return $result;
 
 }

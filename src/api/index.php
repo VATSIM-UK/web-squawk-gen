@@ -61,7 +61,6 @@ $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $des
 
 $counter=0;
 // Run queries in the selected order
-var_dump($queriesToExecute);
 foreach ($queriesToExecute as $query) {
     $counter++;
     $results = $db->query($query);
@@ -76,7 +75,6 @@ foreach ($queriesToExecute as $query) {
         $possibleRanges = count($resultsArray) - 1;
         $selectedRange = $resultsArray[rand(0, $possibleRanges)];
         $range = parseSquawkRange($selectedRange['range']);
-        echo $query;
         if(count($queriesToExecute) == $counter){
           $a = findSquawk($range, true);
         }else{
