@@ -67,9 +67,9 @@ function runICAOChecks()
 
 function hasDepartureAirport()
 {
-  global $depICAO;
-  if($depICAO != ""){
-    return true;
-  }
-  return false;
+    global $depICAO;
+    if ($depICAO != "") {
+        return true;
+    }
+    return false;
 }

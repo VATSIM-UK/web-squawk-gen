@@ -35,18 +35,18 @@ $queriesToExecute = [];
 // 4th - Fallback. Havn't found a squawk, so lets use ORCAM
 
 
-if(hasDepartureAirport()){
-  //1
-  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."' AND depCode='" . $depICAO ."'";
+if (hasDepartureAirport()) {
+    //1
+    $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."' AND depCode='" . $depICAO ."'";
 
-  //2
-  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."' AND depCode='" . $depICAO ."'";
+    //2
+    $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."' AND depCode='" . $depICAO ."'";
 
-  //3
-  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCodeFirst ."' AND depCode='" . $depICAO ."'";
+    //3
+    $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCodeFirst ."' AND depCode='" . $depICAO ."'";
 
-  // Incase of "other"s
-  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode IS NULL AND depCode='" . $depICAO ."'";
+    // Incase of "other"s
+    $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode IS NULL AND depCode='" . $depICAO ."'";
 }
 
 $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."'";
@@ -63,20 +63,20 @@ $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $des
 
 
 // Run queries in the selected order
-foreach($queriesToExecute as $query){
-  $results = $db->query($query);
-  $numRows = 0;
-  $resultsArray = array();
-  while ($row = $results->fetchArray()) {
-      $numRows++;
-      $resultsArray[] = $row;
-  }
-  if ($numRows > 0) {
-      // Use this range
+foreach ($queriesToExecute as $query) {
+    $results = $db->query($query);
+    $numRows = 0;
+    $resultsArray = array();
+    while ($row = $results->fetchArray()) {
+        $numRows++;
+        $resultsArray[] = $row;
+    }
+    if ($numRows > 0) {
+        // Use this range
 
-    $possibleRanges = count($resultsArray) - 1;
-    $selectedRange = $resultsArray[rand(0, $possibleRanges)];
-    $range = parseSquawkRange($selectedRange['range']);
-    outputSquawk($range);
-  }
+        $possibleRanges = count($resultsArray) - 1;
+        $selectedRange = $resultsArray[rand(0, $possibleRanges)];
+        $range = parseSquawkRange($selectedRange['range']);
+        outputSquawk($range);
+    }
 }
