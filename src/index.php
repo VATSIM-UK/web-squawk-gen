@@ -11,6 +11,11 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <style type="text/css">
       #panelBox {
         max-width:75%;
@@ -96,10 +101,7 @@
           border-top-right-radius: 0
       }
     </style>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
-
       $(document).ready(function(){
         $('#icaoCode').keypress(function(event){
         	var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -117,13 +119,19 @@
             }else{
               $("#squawk").text("");
             }
-        	
+
           event.preventDefault();
         });
       });
 
       function generateSquawk(){
-        $.get( "api/index.php", {destICAO: $("#icaoCode").val()}, function( data ) {
+        var params = {destICAO: $("#icaoCode").val()};
+
+        if($("#departure_icao").val().length == 4){
+          params[depICAO] = $("#departure_icao").val()
+        }
+
+        $.get( "api/index.php", params, function( data ) {
           var isnum = /^\d+$/.test(data);
           if(isnum){
             $("#squawk").text(data);
@@ -131,6 +139,7 @@
             $("#squawk").text("");
           }
         });
+
       }
       function buttonClicked(){
         $("#icaoCode").val($('#icaoCode').val().toUpperCase());
@@ -165,7 +174,7 @@
                     <div class="col-md-12">
                       <form id="form">
                         <div class="input-group" id="inputs">
-                          <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane"></span></span>
+                          <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane" style="transform: rotate(135deg);"></span></span>
                           <input type="text" name="icaoCode" id="icaoCode" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
                         </div>
                       </form>
@@ -173,6 +182,24 @@
                     </div>
                   </div>
                   <button class="btn btn-primary" onclick="buttonClicked()" type="button">Generate Squawk</button>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse1"><i class="glyphicon glyphicon-cog"></i> Additional Options</a>
+                          </h4>
+                        </div>
+                        <div id="collapse1" class="collapse text-center" style="border: 1px solid; padding: 10px;">
+                          <label for="departure_icao">Departure ICAO Code</label></br>
+                          <div style="display: inline-block">
+                            <div align="center" class="input-group" id="inputs">
+                              <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane" style="transform: rotate(45deg);"></span></span>
+                              <input type="text" name="departure_icao" id="departure_icao" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-4 col-xs-4">
                     Squawk Code:

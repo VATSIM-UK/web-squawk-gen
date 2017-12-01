@@ -51,15 +51,25 @@ function outputSquawk($range)
 function runICAOChecks()
 {
     global $destICAO;
+    global $depICAO;
     global $db;
 
-    if (strlen($destICAO) != 4) {
+    if (strlen($destICAO) != 4 || !ctype_upper($destICAO)) {
         die();
     }
-    if (!ctype_upper($destICAO)) {
+    if ($depICAO != "" && (strlen($destICAO) != 4 || !ctype_upper($destICAO))) {
         die();
     }
 
-    $GLOBALS['destICAO'] = htmlspecialchars($destICAO);
-    $GLOBALS['destICAO'] = $db::escapeString($destICAO);
+    $GLOBALS['destICAO'] = $db::escapeString(htmlspecialchars($destICAO));
+    $GLOBALS['depICAO'] = $db::escapeString(htmlspecialchars($depICAO));
+}
+
+function hasDepartureAirport()
+{
+  global $depICAO;
+  if($depICAO != ""){
+    return true;
+  }
+  return false;
 }

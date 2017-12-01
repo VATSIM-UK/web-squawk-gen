@@ -18,87 +18,65 @@ foreach ($requiredInput as $required) {
     }
 }
 
+if (isset($_GET["depICAO"])) {
+    $depICAO = $_GET["depICAO"];
+}
+
 runICAOChecks();
 
 $destCountryCode = substr($destICAO, 0, 2);
+$destCountryCodeFirst = substr($destICAO, 0, 1);
 
+$queriesToExecute = [];
 
-// 1st Search for the full destination airport code
-
-$query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."'";
-$results = $db->query($query);
-$numRows = 0;
-while ($row = $results->fetchArray()) {
-    $numRows++;
-}
-
-if ($numRows > 0) {
-    // Use this range
-  $row = $results->fetchArray();  // Take first result
-  $range = parseSquawkRange($row['range']);
-    outputSquawk($range);
-}
-
+// 1st Search for the full destination airport code (& departure airport code if given)
 // 2nd Search for the destination airport code
-
-$query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
-$results = $db->query($query);
-$numRows = 0;
-$resultsArray = array();
-while ($row = $results->fetchArray()) {
-    $numRows++;
-    $resultsArray[] = $row;
-}
-
-if ($numRows > 0) {
-    // Use this range
-
-  $possibleRanges = count($resultsArray) - 1;
-    $selectedRange = $resultsArray[rand(0, $possibleRanges)];
-    $range = parseSquawkRange($selectedRange['range']);
-    outputSquawk($range);
-}
-
 // 3rd - Havn't found a match for the Full ICAO or the 2 letter country code. Lets try the first letter
-
-$destCountryCode = substr($destICAO, 0, 1);
-
-$query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
-$results = $db->query($query);
-$numRows = 0;
-$resultsArray = array();
-while ($row = $results->fetchArray()) {
-    $numRows++;
-    $resultsArray[] = $row;
-}
-
-if ($numRows > 0) {
-    // Use this range
-
-  $possibleRanges = count($resultsArray) - 1;
-    $selectedRange = $resultsArray[rand(0, $possibleRanges)];
-    $range = parseSquawkRange($selectedRange['range']);
-    outputSquawk($range);
-}
-
 // 4th - Fallback. Havn't found a squawk, so lets use ORCAM
+
+
+if(hasDepartureAirport()){
+  //1
+  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."' AND depCode='" . $depICAO ."'";
+
+  //2
+  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."' AND depCode='" . $depICAO ."'";
+
+  //3
+  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCodeFirst ."' AND depCode='" . $depICAO ."'";
+
+  // Incase of "other"s
+  $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode IS NULL AND depCode='" . $depICAO ."'";
+}
+
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."'";
+
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
+
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCodeFirst ."'";
+
+//4
 
 $destCountryCode = "ORCAM";
 
-$query = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
-$results = $db->query($query);
-$numRows = 0;
-$resultsArray = array();
-while ($row = $results->fetchArray()) {
-    $numRows++;
-    $resultsArray[] = $row;
-}
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
 
-if ($numRows > 0) {
-    // Use this range
 
-  $possibleRanges = count($resultsArray) - 1;
+// Run queries in the selected order
+foreach($queriesToExecute as $query){
+  $results = $db->query($query);
+  $numRows = 0;
+  $resultsArray = array();
+  while ($row = $results->fetchArray()) {
+      $numRows++;
+      $resultsArray[] = $row;
+  }
+  if ($numRows > 0) {
+      // Use this range
+
+    $possibleRanges = count($resultsArray) - 1;
     $selectedRange = $resultsArray[rand(0, $possibleRanges)];
     $range = parseSquawkRange($selectedRange['range']);
     outputSquawk($range);
+  }
 }
