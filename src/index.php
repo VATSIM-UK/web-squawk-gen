@@ -102,6 +102,7 @@
       }
     </style>
     <script type="text/javascript">
+      var buttonCooldown;
       $(document).ready(function(){
         $('#icaoCode').keypress(function(event){
         	var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -128,7 +129,7 @@
         var params = {destICAO: $("#icaoCode").val()};
 
         if($("#departure_icao").val().length == 4){
-          params[depICAO] = $("#departure_icao").val()
+          params["depICAO"] = $("#departure_icao").val()
         }
 
         $.get( "api/index.php", params, function( data ) {
@@ -143,6 +144,10 @@
       }
       function buttonClicked(){
         $("#icaoCode").val($('#icaoCode').val().toUpperCase());
+        $("#submitButton").prop('disabled',true);
+        window.setTimeout(function(){
+            $("#submitButton").prop('disabled',false);
+        },2000);
         generateSquawk();
       }
     </script>
@@ -181,7 +186,7 @@
                       </br>
                     </div>
                   </div>
-                  <button class="btn btn-primary" onclick="buttonClicked()" type="button">Generate Squawk</button>
+                  <button id="submitButton" class="btn btn-primary" onclick="buttonClicked()" type="button">Generate Squawk</button>
                   <div class="row">
                     <div class="col-md-12">
                         <div class="panel-heading">
