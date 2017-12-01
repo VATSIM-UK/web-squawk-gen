@@ -2,7 +2,7 @@
 
 class AllocationDB extends SQLite3
 {
-    function __construct()
+    public function __construct()
     {
         $this->open('allocations.sqlite3');
 
@@ -28,13 +28,13 @@ function outputSquawk($range)
     $timesTried++;
     $bypassAllocatedCheck = false;
 
-    if($timesTried >= 20){
-      // Just generate a random one...
-      $bypassAllocatedCheck = true;
-      $number = rand(0, 7777);
-    }else{
-      // Pick a code at random from the range
-      $number = rand($range[0], $range[1]);
+    if ($timesTried >= 20) {
+        // Just generate a random one...
+        $bypassAllocatedCheck = true;
+        $number = rand(0, 7777);
+    } else {
+        // Pick a code at random from the range
+        $number = rand($range[0], $range[1]);
     }
 
     $output = 0;
@@ -68,9 +68,9 @@ function outputSquawk($range)
         outputSquawk($range);
     }
 
-    if($bypassAllocatedCheck){
-      echo $output;
-      exit();
+    if ($bypassAllocatedCheck) {
+        echo $output;
+        exit();
     }
 
     $allocationDB = new AllocationDB();
@@ -80,14 +80,14 @@ function outputSquawk($range)
 
     $res = $allocationDB->query("SELECT allocated_at FROM ".$allocationTableName." WHERE squawk='".$output."'");
     if ($arr = $res->fetchArray(SQLITE3_NUM)) {
-      if(timestampExpired($arr[0])){
-        $allocationDB->exec("UPDATE ".$allocationTableName." SET allocated_at='".date('Y-m-d H:i')."' WHERE squawk = ".$output);
-        echo $output;
-        exit();
-      }
-      // Get another!
-      $allocationDB->close();
-      outputSquawk($range);
+        if (timestampExpired($arr[0])) {
+            $allocationDB->exec("UPDATE ".$allocationTableName." SET allocated_at='".date('Y-m-d H:i')."' WHERE squawk = ".$output);
+            echo $output;
+            exit();
+        }
+        // Get another!
+        $allocationDB->close();
+        outputSquawk($range);
     }
 
 
@@ -95,7 +95,6 @@ function outputSquawk($range)
     $allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES (".$output.",'".date('Y-m-d H:i')."')");
     echo $output;
     exit();
-
 }
 
 function runICAOChecks()
@@ -124,14 +123,15 @@ function hasDepartureAirport()
     return false;
 }
 
-function timestampExpired($timestamp){
+function timestampExpired($timestamp)
+{
     $alloactedAt = strtotime($timestamp);
     $diff = round((time()-$alloactedAt)/60);
 
     $diffRequired = 45; //in min
 
-    if($diff >= $diffRequired){
-      return true;
+    if ($diff >= $diffRequired) {
+        return true;
     }
     return false;
 }
