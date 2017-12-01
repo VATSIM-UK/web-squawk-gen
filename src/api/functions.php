@@ -25,12 +25,11 @@ function findSquawk($range, $final = false)
 {
   $result = outputSquawk($range, $final);
   return $result;
-
 }
 
 function initAllocationDB()
 {
-  return new AllocationDB();
+    return new AllocationDB();
 }
 
 $timesTried = 0;
@@ -46,7 +45,7 @@ function outputSquawk($range, $final = false)
         // Just generate a random one...
         $bypassAllocatedCheck = true;
         $number = rand(0, 7777);
-    } else if ($timesTried >= 40) {
+    } elseif ($timesTried >= 40) {
         return false;
     } else {
         // Pick a code at random from the range
@@ -103,11 +102,11 @@ function outputSquawk($range, $final = false)
         // Get another!
         $allocationDB->close();
         outputSquawk($range);
-    }else{
-      // Output the Squawk Code
-      $allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES (".$output.",'".date('Y-m-d H:i')."')");
-      $allocationDB->close();
-      return $output;
+    } else {
+        // Output the Squawk Code
+        $allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES (".$output.",'".date('Y-m-d H:i')."')");
+        $allocationDB->close();
+        return $output;
     }
 }
 

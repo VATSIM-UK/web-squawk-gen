@@ -81,9 +81,9 @@ foreach ($queriesToExecute as $query) {
           $a = findSquawk($range);
         }
 
-        if($a){
-          echo $a;
-          exit();
+        if ($a) {
+            echo $a;
+            exit();
         }
     }
 }
