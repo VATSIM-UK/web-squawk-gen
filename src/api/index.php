@@ -77,15 +77,15 @@ foreach ($queriesToExecute as $query) {
         $selectedRange = $resultsArray[rand(0, $possibleRanges)];
         $range = parseSquawkRange($selectedRange['range']);
         echo $query;
-        if(count($queriesToExecute) == $counter){
-          $a = findSquawk($range, true);
-        }else{
-          $a = findSquawk($range);
+        if (count($queriesToExecute) == $counter) {
+            $a = findSquawk($range, true);
+        } else {
+            $a = findSquawk($range);
         }
 
-        if($a){
-          echo $a;
-          exit();
+        if ($a) {
+            echo $a;
+            exit();
         }
     }
 }
