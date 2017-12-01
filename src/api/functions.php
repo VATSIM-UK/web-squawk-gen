@@ -20,18 +20,35 @@ function parseSquawkRange($input)
     $split = explode("-", $input);
     return $split;
 }
+
+function findSquawk($range, $final = false)
+{
+  $result = outputSquawk($range, $final);
+  echo "Find Squawk Run</br>";
+  return $result;
+
+}
+
+function initAllocationDB()
+{
+  return new AllocationDB();
+}
+
 $timesTried = 0;
-function outputSquawk($range)
+function outputSquawk($range, $final = false)
 {
     global $reservedCodes;
+    global $allocationDB;
     global $timesTried;
     $timesTried++;
     $bypassAllocatedCheck = false;
 
-    if ($timesTried >= 20) {
+    if ($timesTried >= 40 && $final) {
         // Just generate a random one...
         $bypassAllocatedCheck = true;
         $number = rand(0, 7777);
+    } else if ($timesTried >= 40) {
+        return false;
     } else {
         // Pick a code at random from the range
         $number = rand($range[0], $range[1]);
@@ -69,32 +86,30 @@ function outputSquawk($range)
     }
 
     if ($bypassAllocatedCheck) {
-        echo $output;
-        exit();
+        return $output;
     }
 
-    $allocationDB = new AllocationDB();
+
     $allocationTableName = "recent_allocations";
 
     // Check for recent allocation
-
+    $allocationDB = initAllocationDB();
     $res = $allocationDB->query("SELECT allocated_at FROM ".$allocationTableName." WHERE squawk='".$output."'");
     if ($arr = $res->fetchArray(SQLITE3_NUM)) {
         if (timestampExpired($arr[0])) {
             $allocationDB->exec("UPDATE ".$allocationTableName." SET allocated_at='".date('Y-m-d H:i')."' WHERE squawk = ".$output);
-            echo $output;
-            exit();
+            $allocationDB->close();
+            return $output;
         }
         // Get another!
         $allocationDB->close();
         outputSquawk($range);
+    }else{
+      // Output the Squawk Code
+      $allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES (".$output.",'".date('Y-m-d H:i')."')");
+      $allocationDB->close();
+      return $output;
     }
-
-
-    // Output the Squawk Code
-    $allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES (".$output.",'".date('Y-m-d H:i')."')");
-    echo $output;
-    exit();
 }
 
 function runICAOChecks()

@@ -8,7 +8,6 @@ $reservedCodes = array("1200", "7500", "7700", "7600", "7000", "7777", "1000", "
 $tableName = "squawks";
 $db = new SQLite3('database.sqlite3');
 
-
 foreach ($requiredInput as $required) {
     if (!isset($_GET[$required])) {
         die("A required input was not supplied! (" . $required . ")");
@@ -60,9 +59,11 @@ $destCountryCode = "ORCAM";
 
 $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
 
-
+$counter=0;
 // Run queries in the selected order
+var_dump($queriesToExecute);
 foreach ($queriesToExecute as $query) {
+    $counter++;
     $results = $db->query($query);
     $numRows = 0;
     $resultsArray = array();
@@ -72,10 +73,19 @@ foreach ($queriesToExecute as $query) {
     }
     if ($numRows > 0) {
         // Use this range
-
         $possibleRanges = count($resultsArray) - 1;
         $selectedRange = $resultsArray[rand(0, $possibleRanges)];
         $range = parseSquawkRange($selectedRange['range']);
-        outputSquawk($range);
+        echo $query;
+        if(count($queriesToExecute) == $counter){
+          $a = findSquawk($range, true);
+        }else{
+          $a = findSquawk($range);
+        }
+
+        if($a){
+          echo $a;
+          exit();
+        }
     }
 }
