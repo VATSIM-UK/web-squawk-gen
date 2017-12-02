@@ -195,11 +195,11 @@
                           </h4>
                         </div>
                         <div id="collapse1" class="collapse text-center" style="border: 1px solid; padding: 10px;">
-                          <label for="departure_icao">Departure ICAO Code</label></br>
+                          <label for="departure_icao">UK Departure ICAO Code</label></br>
                           <div style="display: inline-block">
                             <div align="center" class="input-group" id="inputs">
                               <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-plane" style="transform: rotate(45deg);"></span></span>
-                              <input type="text" name="departure_icao" id="departure_icao" class="form-control" placeholder="e.g EHAM" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
+                              <input type="text" name="departure_icao" id="departure_icao" class="form-control" placeholder="e.g EGLL" aria-describedby="inputAddon" onkeyup="this.value=this.value.replace(/[^A-Za-z]/g,'');this.value = this.value.toUpperCase();">
                             </div>
                           </div>
                         </div>
