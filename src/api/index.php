@@ -47,11 +47,11 @@ if (hasDepartureAirport()) {
     $queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode IS NULL AND depCode='" . $depICAO ."'";
 }
 
-$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destICAO ."'";
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE depCode IS NULL AND destCode='" . $destICAO ."'";
 
-$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCode ."'";
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE depCode IS NULL AND destCode='" . $destCountryCode ."'";
 
-$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE destCode='" . $destCountryCodeFirst ."'";
+$queriesToExecute[] = "SELECT * FROM " . $tableName . " WHERE depCode IS NULL AND destCode='" . $destCountryCodeFirst ."'";
 
 //4
 
