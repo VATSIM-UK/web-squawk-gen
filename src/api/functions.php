@@ -24,11 +24,11 @@ function parseSquawkRange($input)
 function findSquawk($range, $final = false)
 {
     $shouldSearchRange = true;
-    while($shouldSearchRange){
-      $result = outputSquawk($range, $final);
-      if($result != 2){
-        $shouldSearchRange = false;
-      }
+    while ($shouldSearchRange) {
+        $result = outputSquawk($range, $final);
+        if ($result != 2) {
+            $shouldSearchRange = false;
+        }
     }
 
     return $result;
