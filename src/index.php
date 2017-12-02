@@ -18,7 +18,7 @@
 
     <style type="text/css">
       #panelBox {
-        max-width:75%;
+        max-width:90%;
         text-align: center;
         float: none;
         margin: 0 auto;
@@ -154,7 +154,7 @@
     <title>VATSIM UK Squawk Code Allocator</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
           <div class="text-center centralBox">
@@ -164,12 +164,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
           <div id="panelBox" class="panel panel-ukblue">
             <div class="panel-heading"><i class="glyphicon glyphicon-cog"></i>   Generate Squawk Code</div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-8 col-xs-8">
+                <div class="col-sm-8 col-xs-12">
                   <div class="row">
                     <div class="col-md-12">
                       <label for="icaoCode">Destination ICAO Code</label>
@@ -206,7 +206,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4">
+                <div class="col-sm-4 col-xs-12">
                     Squawk Code:
                     <h1 id="squawk"></h1>
                 </div>
