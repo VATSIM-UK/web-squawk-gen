@@ -36,10 +36,10 @@ function findSquawk($range, $final = false)
 
 function initAllocationDB()
 {
-	if(!file_exists('.noallocation')){
-		return new AllocationDB();
-	}
-	return null;
+    if (!file_exists('.noallocation')) {
+        return new AllocationDB();
+    }
+    return null;
 }
 
 $timesTried = 0;
@@ -96,28 +96,28 @@ function outputSquawk($range, $final = false)
 
 
     $allocationTableName = "recent_allocations";
-	if(!file_exists('.noallocation')){
-		// Check for recent allocation
-		$allocationDB = initAllocationDB();
-		$res = $allocationDB->query("SELECT allocated_at FROM ".$allocationTableName." WHERE squawk='".$output."'");
-		if ($arr = $res->fetchArray(SQLITE3_NUM)) {
-			if (timestampExpired($arr[0])) {
-				$allocationDB->exec("UPDATE ".$allocationTableName." SET allocated_at='".date('Y-m-d H:i')."' WHERE squawk = '".$output."'");
-				$allocationDB->close();
-				return 2;
-			}
-			// Get another!
-			$allocationDB->close();
-			outputSquawk($range);
-		} else {
-			// Output the Squawk Code
-			$allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES ('".$output."','".date('Y-m-d H:i')."')");
-			$allocationDB->close();
-			return $output;
-		}
-	}else{
-		return $output;
-	}
+    if (!file_exists('.noallocation')) {
+        // Check for recent allocation
+        $allocationDB = initAllocationDB();
+        $res = $allocationDB->query("SELECT allocated_at FROM ".$allocationTableName." WHERE squawk='".$output."'");
+        if ($arr = $res->fetchArray(SQLITE3_NUM)) {
+            if (timestampExpired($arr[0])) {
+                $allocationDB->exec("UPDATE ".$allocationTableName." SET allocated_at='".date('Y-m-d H:i')."' WHERE squawk = '".$output."'");
+                $allocationDB->close();
+                return 2;
+            }
+            // Get another!
+            $allocationDB->close();
+            outputSquawk($range);
+        } else {
+            // Output the Squawk Code
+            $allocationDB->exec("INSERT INTO ".$allocationTableName." (squawk, allocated_at) VALUES ('".$output."','".date('Y-m-d H:i')."')");
+            $allocationDB->close();
+            return $output;
+        }
+    } else {
+        return $output;
+    }
 }
 
 function runICAOChecks()
