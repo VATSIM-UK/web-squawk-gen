@@ -158,7 +158,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="text-center centralBox">
-            <img src="https://vatsim.uk/system/view/images/logo.png" width="200px" />
+            <img src="https://www.vatsim.uk/images/branding/vatsimuk_blackblue.png" width="200px" />
             <h3 class="title">UK Squawk Code Allocator</h3>
           </div>
         </div>
